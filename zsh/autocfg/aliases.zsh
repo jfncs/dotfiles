@@ -8,12 +8,11 @@ alias ls="ls -l"
 alias rp="realpath"
 
 alias gp="git pull --rebase"
+alias gpa="git pull --rebase --autostash"
 alias gP="git push"
 alias gs="git status"
 alias gd="git diff"
 alias ga="git add -u ."
-alias gsP="git stash push"
-alias gsp="git stash pop"
 
 alias vim="nvim"
 alias zz="vim ~/.zshrc"
