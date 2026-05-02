@@ -17,7 +17,7 @@ alias gsp="git stash pop"
 
 alias vim="nvim"
 alias zz="vim ~/.zshrc"
-alias python3="python"
+alias python="python3"
 alias py="ipython"
 alias help="tldr"
 

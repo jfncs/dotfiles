@@ -15,7 +15,7 @@ source "${ZINIT_HOME}/zinit.zsh"
 # ─── Environment ──────────────────────────────────────────────────────────────
 export XDG_CONFIG_HOME="$HOME/.config"
 HOST="${HOST%%.*}"
-EDITOR="nvim"
+export EDITOR="nvim"
 
 ZSH_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
 [[ ! -d "$ZSH_CACHE" ]] && mkdir -p "$ZSH_CACHE"
@@ -41,7 +41,7 @@ fi
 unset _brew_bin
 
 # ─── Platform-specific / private config ───────────────────────────────────────
-source ~/.dotfiles/private/private_init.zsh
+[[ -f "$HOME/.dotfiles/private/private_init.zsh" ]] && source "$HOME/.dotfiles/private/private_init.zsh"
 
 export PATH="$HOME/.local/bin:$PATH"
 [[ -f "$HOME/.local/bin/env" ]] && source "$HOME/.local/bin/env"
@@ -102,7 +102,23 @@ zinit light zsh-users/zsh-completions
 eval "$(zoxide init zsh)"
 [[ -o interactive ]] && alias cd="z"
 
-eval "$(uv generate-shell-completion zsh 2>/dev/null)"
+_cache_and_source_completion() {
+    local cache_file="$1"
+    shift
+
+    local generator_bin="$1"
+    if [[ ! -x "$generator_bin" ]]; then
+        return
+    fi
+
+    if [[ ! -f "$cache_file" || "$generator_bin" -nt "$cache_file" ]]; then
+        "$@" >| "$cache_file" 2>/dev/null
+    fi
+
+    [[ -s "$cache_file" ]] && source "$cache_file"
+}
+
+_cache_and_source_completion "$ZSH_CACHE/uv-completion.zsh" "$commands[uv]" uv generate-shell-completion zsh
 
 _uv_run_mod() {
     if [[ "$words[2]" == "run" && "$words[CURRENT]" != -* ]]; then
@@ -113,9 +129,9 @@ _uv_run_mod() {
 }
 compdef _uv_run_mod uv
 
-(( $+commands[kubectl] )) && source <(kubectl completion zsh)
-(( $+commands[docker] )) && source <(docker completion zsh 2>/dev/null)
-(( $+commands[rustup] )) && source <(rustup completions zsh 2>/dev/null)
+(( $+commands[kubectl] )) && _cache_and_source_completion "$ZSH_CACHE/kubectl-completion.zsh" "$commands[kubectl]" kubectl completion zsh
+(( $+commands[docker] )) && _cache_and_source_completion "$ZSH_CACHE/docker-completion.zsh" "$commands[docker]" docker completion zsh
+(( $+commands[rustup] )) && _cache_and_source_completion "$ZSH_CACHE/rustup-completion.zsh" "$commands[rustup]" rustup completions zsh
 
 # ─── Autocfg modules ─────────────────────────────────────────────────────────
 source "$HOME/.dotfiles/zsh/autocfg/aliases.zsh"
@@ -127,10 +143,7 @@ source "$HOME/.dotfiles/zsh/autocfg/git_audit.zsh"
 
 # ─── NVM lazy loading ────────────────────────────────────────────────────────
 export NVM_DIR="$HOME/.nvm"
-declare -a NODE_GLOBALS=("node" "nvm" "npm" "npx" "yarn" "pnpm")
-if [[ -d "$NVM_DIR/versions/node" ]]; then
-    NODE_GLOBALS+=($(find "$NVM_DIR/versions/node" -maxdepth 3 -type l -wholename '*/bin/*' 2>/dev/null | xargs -n1 basename 2>/dev/null | sort | uniq))
-fi
+declare -a NODE_GLOBALS=("node" "nvm" "npm" "npx" "yarn" "pnpm" "corepack")
 
 load_nvm() {
     [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
