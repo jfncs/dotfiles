@@ -140,6 +140,7 @@ source "$HOME/.dotfiles/zsh/autocfg/fzf.zsh"
 
 # Misc
 source "$HOME/.dotfiles/zsh/autocfg/git_audit.zsh"
+export DO_NOT_TRACK=1
 
 # ─── NVM lazy loading ────────────────────────────────────────────────────────
 export NVM_DIR="$HOME/.nvm"
