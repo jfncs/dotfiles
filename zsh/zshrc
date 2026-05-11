@@ -21,7 +21,7 @@ ZSH_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
 [[ ! -d "$ZSH_CACHE" ]] && mkdir -p "$ZSH_CACHE"
 
 export STARSHIP_CONFIG="$HOME/.dotfiles/config/starship/starship.toml"
-export UV_NATIVE_TLS=true
+export UV_SYSTEM_CERTS=true
 
 WORDCHARS='*?_[]~=&;!#$%^(){}<>'
 
