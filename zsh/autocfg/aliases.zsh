@@ -14,6 +14,8 @@ alias gs="git status"
 alias gd="git diff"
 alias ga="git add -u ."
 
+alias hf='uvx --python 3.12 --from "huggingface_hub[cli]" hf'
+
 alias vim="nvim"
 alias zz="vim ~/.zshrc"
 alias python="python3"
