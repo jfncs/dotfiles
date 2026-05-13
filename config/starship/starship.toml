@@ -37,6 +37,7 @@ min_time = 2_000
 format = "[$duration]($style) "
 
 [python]
+python_binary = "python3.12"
 format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
 
 [rust]
