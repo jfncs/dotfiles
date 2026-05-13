@@ -16,6 +16,7 @@ source "${ZINIT_HOME}/zinit.zsh"
 export XDG_CONFIG_HOME="$HOME/.config"
 HOST="${HOST%%.*}"
 export EDITOR="nvim"
+bindkey -e  # force emacs keybindings — zsh auto-enables vi-mode when EDITOR contains "vi"
 
 ZSH_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
 [[ ! -d "$ZSH_CACHE" ]] && mkdir -p "$ZSH_CACHE"
