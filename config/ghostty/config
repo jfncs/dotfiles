@@ -1,75 +1,116 @@
 # https://ghostty.org/docs/config/reference
+
+#### ─────────────────────────────────────────────────────────────
+####  Key Bindings — Quick Reference
+#### ─────────────────────────────────────────────────────────────
+####  ── App / window ──
+####    cmd + `              toggle Ghostty visibility (global)
+####    ctrl + d             new split (right)
+####    ctrl + z             unbind (passes through to shell/tmux)
+####
+####  ── Input forwarding ──
+####    shift + enter        send ESC + CR  (for apps expecting Meta-Enter)
+####    cmd + `              send tmux-remote-prefix OSC sequence
+####
+####  ── Tip: forward to tmux ──
+####    keybind = cmd+X=text:\x60<key>    sends `prefix + key` to tmux
+####    (prefix = ` = \x60. e.g. cmd+g → \x60g = lazygit popup)
+#### ─────────────────────────────────────────────────────────────
+
+#### ─────────────────────────────────────────────────────────────
+####  Theme & Appearance
+#### ─────────────────────────────────────────────────────────────
 theme = "Argonaut"
 # background = 282c34
 # foreground = ffffff
-background-opacity=0.8
-background-opacity-cells=true
-# background-blur=macos-glass-clear
-background-blur-radius=10
-# background-image=~/.dotfiles/graphics/w1.jpg
-# background-image-fit=stretch
-# background-image-opacity=0.1
-# window-padding-color = extend-always
-window-padding-x=5
-window-padding-y=5
+background-opacity = 0.8
+background-opacity-cells = true
+background-blur-radius = 10
+# background-blur = macos-glass-clear
+# background-image = ~/.dotfiles/graphics/w1.jpg
+# background-image-fit = stretch
+# background-image-opacity = 0.1
 
-cursor-color = cell-foreground
+#### Padding
+window-padding-x = 5
+window-padding-y = 5
+# window-padding-color = extend-always
+
+#### Cursor
+# cursor-color = cell-foreground   # shadowed by next line
 cursor-color = #A1078D
 cursor-style = block
 cursor-invert-fg-bg
 
+#### Font
 font-family = "Anka/Coder"
-font-thicken = true
 font-size = 14
+font-thicken = true
 bold-color = bright
 
-# keybind = ctrl+z=close_surface # JF: what's this
-
-# keybind = global:shift+cmd+backquote=toggle_quick_terminal
-quick-terminal-animation-duration=0
-quick-terminal-autohide=true
-quick-terminal-screen=main
-
-keybind = ctrl+d=new_split:right
-keybind = ctrl+z=unbind
-keybind = global:cmd+backquote=toggle_visibility
-# keybind = global:cmd+escape=toggle_visibility
-
-keybind = shift+enter=text:\x1b\r
-keybind = cmd+`=text:\x1b]5255;tmux-remote-prefix\x07
-
-# shell integration
-shell-integration = zsh
-link-url = true
-
-# Disable Ghostty built-in tab title shell integration
-# https://ghostty.org/docs/config/reference#shell-integration-features
-shell-integration-features=no-title,no-cursor,ssh-env,ssh-terminfo,sudo
-
-macos-non-native-fullscreen=padded-notch
-macos-titlebar-style=hidden
-
-# tabs
-macos-auto-secure-input=true
-mouse-hide-while-typing=true
-macos-window-shadow=false
-mouse-scroll-multiplier = 2
-
-clipboard-trim-trailing-spaces=true
-copy-on-select = clipboard
-clipboard-read = allow
-clipboard-write = allow
-
+#### ─────────────────────────────────────────────────────────────
+####  Window & macOS
+#### ─────────────────────────────────────────────────────────────
 title = " "
-
-window-step-resize = true
 window-height = 37
 window-width = 135
 window-colorspace = "display-p3"
+window-step-resize = true
+window-save-state = always
 confirm-close-surface = false
-# fullscreen=true
-maximize=true
-window-save-state=always
+maximize = true
+# fullscreen = true
 
+macos-non-native-fullscreen = padded-notch
+macos-titlebar-style = hidden
+macos-auto-secure-input = true
+macos-window-shadow = false
+
+#### ─────────────────────────────────────────────────────────────
+####  Mouse & Clipboard
+#### ─────────────────────────────────────────────────────────────
+mouse-hide-while-typing = true
+mouse-scroll-multiplier = 2
+
+# Ghostty auto-copies on select by default.
+# Inside tmux, this fights you - you end up selecting in Ghostty’s layer when you meant to select in tmux’s copy-mode.
+# The fix is simple: clipboard -> false
+copy-on-select = false
+
+clipboard-read = allow
+clipboard-write = allow
+clipboard-trim-trailing-spaces = true
+
+#### ─────────────────────────────────────────────────────────────
+####  Quick Terminal
+#### ─────────────────────────────────────────────────────────────
+quick-terminal-animation-duration = 0
+quick-terminal-autohide = true
+quick-terminal-screen = main
+# keybind = global:shift+cmd+backquote=toggle_quick_terminal
+
+#### ─────────────────────────────────────────────────────────────
+####  Keybindings
+#### ─────────────────────────────────────────────────────────────
+keybind = ctrl+d=new_split:right
+keybind = ctrl+z=unbind
+keybind = global:cmd+backquote=toggle_visibility
+keybind = shift+enter=text:\x1b\r
+keybind = cmd+`=text:\x1b]5255;tmux-remote-prefix\x07
+# keybind = ctrl+z=close_surface          # JF: what's this
+# keybind = global:cmd+escape=toggle_visibility
+
+#### ─────────────────────────────────────────────────────────────
+####  Shell Integration
+#### ─────────────────────────────────────────────────────────────
+shell-integration = zsh
+# Disable Ghostty's built-in tab title shell integration
+# https://ghostty.org/docs/config/reference#shell-integration-features
+shell-integration-features = no-title,no-cursor,ssh-env,ssh-terminfo,sudo
+link-url = true
+
+#### ─────────────────────────────────────────────────────────────
+####  Auto-Update
+#### ─────────────────────────────────────────────────────────────
 auto-update = download
 auto-update-channel = tip

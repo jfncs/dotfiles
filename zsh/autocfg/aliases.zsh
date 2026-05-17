@@ -43,7 +43,7 @@ alias dev="cd ~/dev"
 
 # Move and Edit
 alias dots="cd ~/.dotfiles/; vim zsh/zshrc"
-alias obs="cd ~/Obs; vim"
+alias obs="cd ~/dev/obs; vim"
 
 alias jup="jupyter lab --autoreload --no-browser . &!"
 
