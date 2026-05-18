@@ -32,7 +32,8 @@
     pushall = !git remote | xargs -L1 git push --all
     supdate = !git submodule update --remote --merge
     resign = "!f() { git rebase --exec 'git commit --amend --no-edit -n -S' -i \"$1\"; }; f"
-	reset-branch = "!f() { git fetch origin && git stash && git checkout \"$1\" && git reset --hard origin/main && git push --force-with-lease origin \"$1\" && git checkout - && git stash pop 2>/dev/null; }; f"
+    reset-branch = "!f() { git fetch origin && git stash && git checkout \"$1\" && git reset --hard origin/main && git push --force-with-lease origin \"$1\" && git checkout - && git stash pop 2>/dev/null; }; f"
+    sync = "!f() { git fetch origin && git rebase --autostash origin/${1:-main}; }; f"
 
 [interactive]
 	diffFilter = diff-so-fancy --patch
