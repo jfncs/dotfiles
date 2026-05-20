@@ -34,6 +34,8 @@
     resign = "!f() { git rebase --exec 'git commit --amend --no-edit -n -S' -i \"$1\"; }; f"
     reset-branch = "!f() { git fetch origin && git stash && git checkout \"$1\" && git reset --hard origin/main && git push --force-with-lease origin \"$1\" && git checkout - && git stash pop 2>/dev/null; }; f"
     sync = "!f() { git fetch origin && git rebase --autostash origin/${1:-main}; }; f"
+    squash = "!f() { git reset --soft $(git merge-base HEAD ${1:-main}) && git commit; }; f"
+    pushf = push --force-with-lease
 
 [interactive]
 	diffFilter = diff-so-fancy --patch
