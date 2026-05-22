@@ -5,8 +5,12 @@
 #### ─────────────────────────────────────────────────────────────
 ####  ── App / window ──
 ####    cmd + `              toggle Ghostty visibility (global)
-####    ctrl + d             new split (right)
+####    ctrl + d             new split (right)  — native Ghostty
 ####    ctrl + z             unbind (passes through to shell/tmux)
+####
+####  ── tmux pane splits (sends prefix + key) ──
+####    cmd + d              tmux split left/right  (` + %)
+####    cmd + shift + d      tmux split top/bottom  (` + ")
 ####
 ####  ── Input forwarding ──
 ####    shift + enter        send ESC + CR  (for apps expecting Meta-Enter)
@@ -94,6 +98,11 @@ quick-terminal-screen = main
 #### ─────────────────────────────────────────────────────────────
 keybind = ctrl+d=new_split:right
 keybind = ctrl+z=unbind
+
+# tmux pane splits — sends `prefix + key` to tmux (prefix = ` = \x60)
+# \x25 = %  → split left/right     \x22 = "  → split top/bottom
+keybind = cmd+d=text:\x60\x25
+keybind = cmd+shift+d=text:\x60\x22
 keybind = global:cmd+backquote=toggle_visibility
 keybind = shift+enter=text:\x1b\r
 keybind = cmd+`=text:\x1b]5255;tmux-remote-prefix\x07
