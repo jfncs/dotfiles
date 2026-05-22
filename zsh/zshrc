@@ -101,6 +101,7 @@ zinit light zsh-users/zsh-completions
 
 # ─── Tool init ────────────────────────────────────────────────────────────────
 eval "$(zoxide init zsh)"
+eval "$(direnv hook zsh)"
 [[ -o interactive ]] && alias cd="z"
 
 _cache_and_source_completion() {

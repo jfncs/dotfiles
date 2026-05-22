@@ -15,6 +15,7 @@ brew "tlrc"
 brew "tmux"
 brew "wget"
 brew "zoxide"
+brew "direnv"
 
 # Shell
 brew "zsh-autosuggestions"
