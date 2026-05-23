@@ -25,9 +25,10 @@
 ####  Theme & Appearance
 #### ─────────────────────────────────────────────────────────────
 theme = "Argonaut"
-# background = 282c34
 # foreground = ffffff
-background-opacity = 0.9
+background=#000000
+background-opacity = 0.85
+background-blur = 16
 background-opacity-cells = true
 background-blur-radius = 10
 # background-blur = macos-glass-clear
@@ -48,8 +49,10 @@ cursor-invert-fg-bg
 
 #### Font
 font-family = "Anka/Coder"
-font-size = 14
+font-size = 16
 font-thicken = true
+font-thicken-strength = 1
+adjust-cell-height = 1
 bold-color = bright
 
 #### ─────────────────────────────────────────────────────────────
