@@ -1,6 +1,7 @@
 tools:
   claude:
-    theme: "Alien Blood"
+    # theme: "Alien Blood"
+    theme: "Builtin Pastel Dark"
   codex:
     theme: "Black Metal (Burzum)"
   ssh:

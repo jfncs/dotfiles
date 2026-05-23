@@ -27,7 +27,7 @@
 theme = "Argonaut"
 # background = 282c34
 # foreground = ffffff
-background-opacity = 0.8
+background-opacity = 0.9
 background-opacity-cells = true
 background-blur-radius = 10
 # background-blur = macos-glass-clear
