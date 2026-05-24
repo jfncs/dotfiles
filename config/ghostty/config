@@ -101,6 +101,7 @@ quick-terminal-screen = main
 #### ─────────────────────────────────────────────────────────────
 keybind = ctrl+d=new_split:right
 keybind = ctrl+shift+D=new_split:down
+keybind = ctrl+shift+Z=toggle_split_zoom
 keybind = ctrl+z=unbind
 
 # tmux pane splits — sends `prefix + key` to tmux (prefix = ` = \x60)
