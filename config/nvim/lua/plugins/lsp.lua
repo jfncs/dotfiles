@@ -1,77 +1,26 @@
 return {
 	{
 		"neovim/nvim-lspconfig",
-		---@class PluginLspOpts
+		---@param opts PluginLspOpts
 		opts = function(_, opts)
+			opts.format = vim.tbl_deep_extend("force", opts.format or {}, { timeout_ms = 5000 })
+
 			opts.servers = opts.servers or {}
-			opts.format = { timeout_ms = 5000 }
-			opts.inlay_hints = { enabled = true }
-			opts.diagnostics = { virtual_text = true }
-			-- opts.servers.basedpyright = {
-			-- 	settings = {
-			-- 		basedpyright = {
-			-- 			analysis = {
-			-- 				typeCheckingMode = "basic",
-			-- 				diagnosticMode = "openFilesOnly",
-			-- 			},
-			-- 		},
-			-- 	},
-			-- }
-
-			local keymaps = require("lazyvim.plugins.lsp.keymaps")
-			local ui_windows = require("lspconfig.ui.windows")
-			local format = require("lazyvim.util").format.format
-
-            -- stylua: ignore
-            keymaps._keys = {
-                { "<a-n>", function() Snacks.words.jump(vim.v.count1, true) end, has = "documentHighlight", desc = "Next Reference", cond = function() return Snacks.words.is_enabled() end },
-                { "<a-p>", function() Snacks.words.jump(-vim.v.count1, true) end, has = "documentHighlight", desc = "Prev Reference", cond = function() return Snacks.words.is_enabled() end },
+			opts.servers["*"] = opts.servers["*"] or {}
+			opts.servers["*"].keys = vim.list_extend(opts.servers["*"].keys or {}, {
+                -- stylua: ignore
                 { "<c-s-k>", function() return vim.lsp.buf.signature_help() end, mode = "i", desc = "Signature Help", has = "signatureHelp" },
-                { "]]", function() Snacks.words.jump(vim.v.count1) end, has = "documentHighlight", desc = "Next Reference", cond = function() return Snacks.words.is_enabled() end },
-                { "[[", function() Snacks.words.jump(-vim.v.count1) end, has = "documentHighlight", desc = "Prev Reference", cond = function() return Snacks.words.is_enabled() end },
-                { "gd", function() require("telescope.builtin").lsp_definitions({ reuse_win = true }) end, desc = "Goto Definition", has = "definition" },
-                { "gD", vim.lsp.buf.declaration, desc = "Goto Declaration" },
-                { "gd", vim.lsp.buf.definition, desc = "Goto Definition", has = "definition" },
-                { "gI", function() require("telescope.builtin").lsp_implementations({ reuse_win = true }) end, desc = "Goto Implementation" },
-                { "gI", vim.lsp.buf.implementation, desc = "Goto Implementation" },
-                { "gK", function() return vim.lsp.buf.signature_help() end, desc = "Signature Help", has = "signatureHelp" },
-                { "gR", "<cmd>Telescope lsp_references<cr>", desc = "References" },
-                { "gr", vim.lsp.buf.references, desc = "References", nowait = true },
-                { "gt", function() require("telescope.builtin").lsp_type_definitions({ reuse_win = true }) end, desc = "Goto T[y]pe Definition" },
-                { "gy", vim.lsp.buf.type_definition, desc = "Goto T[y]pe Definition" },
-                { "K", function() return vim.lsp.buf.hover() end, desc = "Hover" },
-                { "<leader>cA", function() vim.lsp.buf.code_action({ context = { only = { "source", }, diagnostics = {}, }, }) end, desc = "Source Action", has = "codeAction", },
-                { "<leader>cA", LazyVim.lsp.action.source, desc = "Source Action", has = "codeAction" },
-                { "<leader>ca", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" }, has = "codeAction" },
-                { "<leader>cC", vim.lsp.codelens.refresh, desc = "Refresh & Display Codelens", mode = { "n" }, has = "codeLens" },
-                { "<leader>cc", vim.lsp.codelens.run, desc = "Run Codelens", mode = { "n", "v" }, has = "codeLens" },
-                { "<leader>cd", vim.diagnostic.open_float, desc = "Line Diagnostics" },
-                { "<leader>cf", format, desc = "Format Document", has = "documentFormatting" },
-                { "<leader>cf", format, desc = "Format Range", mode = "v", has = "documentRangeFormatting" },
-                { "<leader>cl", "<cmd>LspInfo<cr>", desc = "Lsp Info" },
-                { "<leader>cR", function() Snacks.rename.rename_file() end, desc = "Rename File", mode ={"n"}, has = { "workspace/didRenameFiles", "workspace/willRenameFiles" } },
-                { "<leader>cr", vim.lsp.buf.rename, desc = "Rename", has = "rename" },
-            }
+			})
 
-			-- ui_windows.default_options.border = "single"
-			ui_windows.default_options.border = "rounded"
-
-			return opts
+			require("lspconfig.ui.windows").default_options.border = "rounded"
 		end,
 	},
-	-- 	opts = {
-	-- 		---@type lspconfig.options
-	-- 		servers = {},
-	-- 	},
-	-- },
 
-	-- Formatters via conform.nvim
-	-- https://github.com/stevearc/conform.nvim
 	{
 		"stevearc/conform.nvim",
 		opts = {
 			formatters_by_ft = {
-				python = { "ruff_format", "ruff_fix" },
+				python = { "ruff_fix", "ruff_format" },
 				rust = { "rustfmt" },
 				vue = { "biome" },
 				typescript = { "biome" },
