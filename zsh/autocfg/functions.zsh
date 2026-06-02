@@ -109,3 +109,8 @@ function y() {
 	[[ "$cwd" != "$PWD" ]] && [[ -d "$cwd" ]] && builtin cd -- "$cwd"
 	rm -f -- "$tmp"
 }
+
+function claude-vllm() {
+    CLAUDE_CONFIG_DIR="$HOME/.claude-vllm" command claude "$@"
+}
+
