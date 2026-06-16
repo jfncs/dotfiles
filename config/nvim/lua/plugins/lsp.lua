@@ -5,6 +5,8 @@ return {
 		opts = function(_, opts)
 			opts.format = vim.tbl_deep_extend("force", opts.format or {}, { timeout_ms = 5000 })
 
+			opts.inlay_hints = vim.tbl_deep_extend("force", opts.inlay_hints or {}, { enabled = false })
+
 			opts.servers = opts.servers or {}
 			opts.servers["*"] = opts.servers["*"] or {}
 			opts.servers["*"].keys = vim.list_extend(opts.servers["*"].keys or {}, {
