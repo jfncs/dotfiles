@@ -110,7 +110,31 @@ function y() {
 	rm -f -- "$tmp"
 }
 
+# local (todo extend grok/codex/hermes/oc)
 function claude-vllm() {
     CLAUDE_CONFIG_DIR="$HOME/.claude-vllm" command claude "$@"
 }
 
+
+# worktree
+function gwt() {
+    local main repo parent branch base dest
+    main=$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)") || return 1
+    repo=$(basename "$main")
+    parent=$(dirname "$main")
+    branch="$1"
+    base="${2:-origin/main}"
+
+    if [ -z "$branch" ]; then
+        echo "usage: gwt <branch> [base]" >&2
+        return 1
+    fi
+
+    dest="$parent/$repo.worktrees/$branch"
+
+    if git worktree add "$dest" -b "$branch" "$base"; then
+        cd "$dest" || return 1
+    else
+        return 1
+    fi
+}
