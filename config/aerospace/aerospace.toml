@@ -57,12 +57,12 @@ preset = 'qwerty'
 
 # Gaps between windows (inner-*) and between monitor edges (outer-*).
 [gaps]
-inner.horizontal = 10
-inner.vertical = 10
-outer.bottom = 10
-outer.top = [{ monitor.built-in = 10 }, 4]
-outer.left = 10
-outer.right = 10
+inner.horizontal = [{ monitor.main = 5 }, 5]
+inner.vertical = [{ monitor.main = 5 }, 5]
+outer.bottom = [{ monitor.main = 5 }, 5]
+outer.top = [{ monitor.main = 5 }, 5]
+outer.left = [{ monitor.main = 5 }, 5]
+outer.right = [{ monitor.main = 5 }, 5]
 
 [workspace-to-monitor-force-assignment]
 1 = ['secondary', 'main']
@@ -195,3 +195,7 @@ run = ['layout floating']
 [[on-window-detected]]
 if.app-id = 'us.zoom.xos'
 run = ['layout floating']
+
+# Other Tips:
+# Drag windoww by holding ctrl+cmd (run in mac)
+# defaults write -g NSWindowShouldDragOnGesture -bool true
