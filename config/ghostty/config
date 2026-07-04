@@ -111,10 +111,14 @@ keybind = ctrl+z=unbind
 keybind = cmd+d=text:\x60\x25
 keybind = cmd+shift+d=text:\x60\x22
 keybind = global:cmd+backquote=toggle_visibility
-keybind = shift+enter=text:\x1b\r
 keybind = cmd+`=text:\x1b]5255;tmux-remote-prefix\x07
+# keybind = shift+enter=text:\x1b\r # commented for below
 # keybind = ctrl+z=close_surface          # JF: what's this
 # keybind = global:cmd+escape=toggle_visibility
+
+# added for omp support
+keybind = alt+backspace=text:\x1b\x7f
+keybind = shift+enter=text:\n
 
 #### ─────────────────────────────────────────────────────────────
 ####  Shell Integration
