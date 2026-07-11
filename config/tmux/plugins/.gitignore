@@ -1,0 +1,4 @@
+# TPM-installed plugins are regenerable (prefix + I). Keep tpm (submodule).
+*
+!.gitignore
+!tpm
