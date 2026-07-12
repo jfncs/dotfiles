@@ -71,8 +71,8 @@ tmux set-option -g window-status-activity-style bg=default
 inactive_bg=$(get_tmux_option "@minimal-tmux-inactive-bg" "#1a1b26")
 inactive_fg=$(get_tmux_option "@minimal-tmux-inactive-fg" "#565f89")
 
-tmux set-option -g window-status-format "#[fg=${inactive_bg}]$larrow#[bg=${inactive_bg},fg=${inactive_fg}]${window_status_format}#[fg=${inactive_bg},bg=default]$rarrow"
+tmux set-option -g window-status-format "#[fg=${inactive_bg}]$larrow#[bg=default,fg=${inactive_fg}]${window_status_format}#[fg=${inactive_bg},bg=default]$rarrow"
 "$show_expanded_icon_for_all_tabs" &&
-    tmux set-option -g window-status-format "#[fg=${inactive_bg}]$larrow#[bg=${inactive_bg},fg=${inactive_fg}] ${window_status_format}#{?window_zoomed_flag,${expanded_icon},}#[fg=${inactive_bg},bg=default]$rarrow"
+    tmux set-option -g window-status-format "#[fg=${inactive_bg}]$larrow#[bg=default,fg=${inactive_fg}]${window_status_format}#{?window_zoomed_flag,${expanded_icon},}#[fg=${inactive_bg},bg=default]$rarrow"
 
-tmux set-option -g window-status-current-format "#[fg=${bg}]$larrow#[bg=${bg},fg=${fg}]${window_status_format}#{?window_zoomed_flag,${expanded_icon},}#[fg=${bg},bg=default]$rarrow"
+tmux set-option -g window-status-current-format "#[fg=${bg}]$larrow#[bg=default,fg=${bg},bold]${window_status_format}#{?window_zoomed_flag,${expanded_icon},}#[fg=${bg},bg=default]$rarrow"

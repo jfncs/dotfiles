@@ -68,7 +68,7 @@ _gat_init() {
     }
   ' "$_GAT_CONFIG")
 
-  local tool theme_name theme_file osc_seq _tmux_line _invoke _theme_bg
+  local tool theme_name theme_file osc_seq _invoke
   while IFS=$'\t' read -r tool theme_name; do
     [[ -z "$tool" ]] && continue
 
@@ -79,12 +79,12 @@ _gat_init() {
       continue
     fi
 
-    _tmux_line=""
     if [[ -n "$TMUX" ]]; then
-      # Skip OSC 11 bg, use tmux pane-style to avoid double opacity
-      _theme_bg=$(awk 'BEGIN { FS = " = " } /^background/ { print $2 }' "$theme_file")
+      # Theme fg/cursor/palette only. Any explicit bg -- OSC 11 or a tmux
+      # pane-style -- makes cells opaque and punches a solid rectangle through
+      # Ghostty's background-opacity/blur. Leaving cells on the default bg keeps
+      # the pane translucent.
       osc_seq=$(_gat_parse_theme "$theme_file" 1)
-      _tmux_line="tmux select-pane -P 'bg=${_theme_bg}'"
     else
       osc_seq=$(_gat_parse_theme "$theme_file" 0)
     fi
@@ -97,7 +97,6 @@ _gat_init() {
     fi
 
     eval "${tool}() {
-      ${_tmux_line}
       printf '${osc_seq}'
       {
         ${_invoke} \"\$@\"
