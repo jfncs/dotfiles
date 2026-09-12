@@ -44,6 +44,7 @@ format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
 format = "[$symbol($version )]($style)"
 
 [nodejs]
+disabled = true
 format = "[$symbol($version )]($style)"
 detect_files = ["package.json"]
 detect_folders = ["node_modules"]
