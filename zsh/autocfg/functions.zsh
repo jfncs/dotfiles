@@ -208,6 +208,40 @@ sj() {
   fi
 }
 
+# opencode2 session picker with fzf
+oc2s() {
+  if ! (( $+commands[opencode2] )); then
+    echo "opencode2 not found" >&2
+    return 1
+  fi
+  if ! (( $+commands[jq] )); then
+    echo "jq not found" >&2
+    return 1
+  fi
+  if ! (( $+commands[fzf] )); then
+    echo "fzf not found" >&2
+    return 1
+  fi
+
+  local selected session_id
+  selected=$(
+    opencode2 session list --format json |
+      jq -r '.[] | [.id, (.title // "Untitled"), ((.updated / 1000) | strftime("%Y-%m-%d %H:%M")), (.directory // "")] | @tsv' |
+      fzf \
+        --height 60% \
+        --layout=reverse \
+        --border \
+        --header='Session ID	Title	Updated' \
+        --prompt='opencode session> ' \
+        --delimiter=$'\t' \
+        --with-nth=1,2,3 \
+        --preview='printf "id: %s\ntitle: %s\nupdated: %s\ndirectory: %s\n" {1} {2} {3} {4}'
+  ) || return 0
+
+  session_id="${selected%%$'\t'*}"
+  [[ -n "$session_id" ]] && opencode2 -s "$session_id" "$@"
+}
+
 # nvim with fzf
 nsj() {
   nvim "$(fzf --preview 'bat --color=always {}')"

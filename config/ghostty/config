@@ -64,12 +64,12 @@ window-height=37
 window-width=135
 window-colorspace="display-p3"
 window-step-resize=true
-window-save-state=always
+window-save-state=default
 confirm-close-surface=false
-maximize=true
-fullscreen=non-native
+maximize=false
+fullscreen=false
 
-macos-non-native-fullscreen=padded-notch
+macos-non-native-fullscreen=false
 macos-titlebar-style=hidden
 macos-auto-secure-input=true
 macos-window-shadow=false

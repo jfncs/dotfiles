@@ -59,7 +59,7 @@ preset = 'qwerty'
 [gaps]
 inner.horizontal = [{ monitor.main = 5 }, 5]
 inner.vertical = [{ monitor.main = 5 }, 5]
-outer.bottom = [{ monitor.main = 1 }, 1]
+outer.bottom = [{ monitor."Built-in Retina Display" = 0 }, 1]
 outer.top = [{ monitor.main = 0 }, 0]
 outer.left = [{ monitor.main = 1 }, 1]
 outer.right = [{ monitor.main = 1 }, 1]
