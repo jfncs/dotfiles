@@ -100,7 +100,7 @@ quick-terminal-screen=main
 #### ─────────────────────────────────────────────────────────────
 ####  Keybindings
 #### ─────────────────────────────────────────────────────────────
-keybind = ctrl+d=new_split:right
+# keybind = ctrl+d=new_split:right # conflict with oc
 keybind = ctrl+shift+D=new_split:down
 keybind = ctrl+shift+Z=toggle_split_zoom
 keybind = ctrl+z=unbind
