@@ -127,14 +127,44 @@ gwm() {
 # usage: gws [name]   (no args = all submodules from .gitmodules)
 gws() {
     local main sub
+    local -a ref
     main=$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)") || return 1
     if [ -n "$1" ]; then
-        git submodule update --init --reference "$main/vendors/$1" "vendors/$1"
+        ref=()
+        [ -e "$main/vendors/$1/.git" ] && ref=(--reference "$main/vendors/$1")
+        git submodule update --init $ref "vendors/$1"
         return
     fi
     for sub in $(git config --file .gitmodules --get-regexp '\.path$' | awk '{print $2}'); do
-        git submodule update --init --reference "$main/$sub" "$sub"
+        ref=()
+        [ -e "$main/$sub/.git" ] && ref=(--reference "$main/$sub")
+        git submodule update --init $ref "$sub"
     done
+}
+
+# shared delete: remove worktree, prompt about leftovers, optionally delete branch
+function _gwt_remove() {
+    local dest="$1" branch="$2" do_branch="$3" ans
+    # --force: worktrees with submodules refuse removal otherwise
+    git worktree remove --force "$dest" || true
+    # git can leave files behind (ignored files, submodule internals, NFS)
+    # or fail with "Directory not empty"; confirm before wiping leftovers
+    if [ -d "$dest" ]; then
+        echo "files remain in $dest:"
+        ls -A "$dest" | sed 's/^/  /'
+        read "ans?Delete the leftovers? [Y/n] "
+        if [[ -z "$ans" || "$ans" == [Yy]* ]]; then
+            rm -rf "$dest"
+            git worktree prune
+        else
+            echo "left $dest in place; remove it manually when ready" >&2
+            return 1
+        fi
+    fi
+    if [[ "$do_branch" = "1" && -n "$branch" ]]; then
+        git branch -d "$branch"
+    fi
+    return 0
 }
 
 # worktree: hop into existing, check out existing branch, or create from base
@@ -149,10 +179,23 @@ function gwt() {
         dest="$parent/$repo.worktrees/$branch"
         [ -n "$branch" ] || { echo "usage: gwt rm <branch> [-d]" >&2; return 1; }
         [ -d "$dest" ] || { echo "no worktree for $branch" >&2; return 1; }
-        # --force: worktrees with submodules refuse removal otherwise
-        git worktree remove --force "$dest" || return 1
-        [[ "$3" = "-d" ]] && git branch -d "$branch"
-        return 0
+        local do_branch=0
+        [[ "$3" = "-d" ]] && do_branch=1
+        _gwt_remove "$dest" "$branch" "$do_branch"
+        return $?
+    fi
+
+    # gwt -d → pick a worktree to delete; selecting starts the delete process
+    if [ "$1" = "-d" ]; then
+        local sel
+        sel=$(git worktree list | awk -v m="$main" '$1 != m' \
+            | fzf --height=40% --layout=reverse --prompt='delete worktree> ') || return 0
+        dest=$(awk '{print $1}' <<<"$sel")
+        branch=$(git -C "$dest" rev-parse --abbrev-ref HEAD 2>/dev/null)
+        [[ "$branch" = "HEAD" || -z "$branch" ]] && branch=""
+        echo "deleting worktree $dest"
+        _gwt_remove "$dest" "$branch" 1
+        return $?
     fi
 
     branch="$1"
