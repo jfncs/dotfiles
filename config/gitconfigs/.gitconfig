@@ -79,3 +79,9 @@
 	autoSetupRemote = true
 
 
+[pull]
+	ff = only
+[fetch]
+	prune = true
+[worktree]
+	guessRemote = true

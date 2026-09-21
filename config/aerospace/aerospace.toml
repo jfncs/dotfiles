@@ -60,9 +60,9 @@ preset = 'qwerty'
 inner.horizontal = [{ monitor.main = 5 }, 5]
 inner.vertical = [{ monitor.main = 5 }, 5]
 outer.bottom = [{ monitor."Built-in Retina Display" = 0 }, 1]
-outer.top = [{ monitor.main = 0 }, 0]
-outer.left = [{ monitor.main = 1 }, 1]
-outer.right = [{ monitor.main = 1 }, 1]
+outer.top = [{ monitor.main = 10 }, 6]                        # when menu bar hidden
+outer.left = [{ monitor.main = 4 }, 2]
+outer.right = [{ monitor.main = 4 }, 2]
 
 [workspace-to-monitor-force-assignment]
 1 = ['secondary', 'main']
