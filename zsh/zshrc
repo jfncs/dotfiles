@@ -191,5 +191,3 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 # ─── Color ghostty must be late so it can wrap Ghostty's ssh function
 [[ -f ~/.config/ghostty/color.zsh ]] && source ~/.config/ghostty/color.zsh
-
-. "$HOME/.local/bin/env"
